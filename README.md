@@ -84,6 +84,7 @@ Add the `btf-eliminate` attribute to an element to get the behavior.
 
 Example:
 ```html
+
 <h2>These get copied</h2>
 <div btf-dragon="item in list" btf-double-dragon>
   {{item.name}}
@@ -94,6 +95,21 @@ Example:
 </div>
 ```
 
+### btf-dragon-base / btf-dragon-container
+Makes it so the drop zone and template container can be separated.
+Add `btf-dragon-base` to the dragon and `btf-dragon-container` to any child of the dragon.
+
+<div btf-dragon="item in list">
+  {{item.name}}
+</div>
+<h2>Here they are separate so you can drop anywhere under the base</h2>
+<div btf-dragon="item in otherList" btf-dragon-base>
+  <h1>Drop On Me</h1>
+  <div btf-dragon-container>
+    {{item.name}}
+  </div>
+</div>
+```
 
 ## Example
 See [`example.html`](http://htmlpreview.github.io/?https://github.com/btford/angular-dragon-drop/blob/master/example.html).

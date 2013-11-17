@@ -72,6 +72,18 @@ angular.module('btford.dragon-drop', []).
       }
     };
 
+    var findContainer = function(elem){
+      var children = elem.find('*');
+
+      for (var i = 0; i < children.length; i++){
+        if (children[i].hasAttribute('btf-dragon-container')) {
+          return angular.element(children[i]);
+        }
+      }
+
+      return null;
+    };
+
     var documentBody = angular.element($document[0].body);
 
     var disableSelect = function () {
@@ -189,8 +201,18 @@ angular.module('btford.dragon-drop', []).
         var valueIdentifier = match[3] || match[1];
         var keyIdentifier = match[2];
 
+        var duplicate = container.attr('btf-double-dragon') !== undefined;
+
         // pull out the template to re-use.
         // Improvised ng-transclude.
+        if (container.attr('btf-dragon-base') !== undefined){
+          container = findContainer(container);
+
+          if (!container){
+            throw new Error('Expected btf-dragon-base to be used with a companion btf-dragon-conatiner');
+          }
+        }
+
         var template = container.html();
 
         // wrap text nodes
@@ -209,9 +231,7 @@ angular.module('btford.dragon-drop', []).
         container.html('');
         container.append(child);
 
-        var duplicate = container.attr('btf-double-dragon') !== undefined;
         var eliminate = container.attr('btf-dragon-eliminate') !== undefined; 
-
         return function (scope, elt, attr) {
 
           var accepts = scope.$eval(attr.btfDragonAccepts);
